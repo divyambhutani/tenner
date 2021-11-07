@@ -14,10 +14,9 @@ const userSchema = mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, "Please enter a valid email"],
   },
-  phone: {
-    type: String,
-    unique: true,
-    validate: validator.isPhoneNumber,
+  age: {
+    type: Number,
+    required: [true, "User age is required"],
   },
   password: {
     type: String,
@@ -30,4 +29,12 @@ const userSchema = mongoose.Schema({
     enum: ["tenant", "owner", "admin"],
     default: "tenant",
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 });
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
