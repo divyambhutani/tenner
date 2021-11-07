@@ -4,6 +4,7 @@ dotenv.config({ path: "./config.env" });
 
 const mongoose = require("mongoose");
 const userRouter = require("./routes/userRouter");
+const propertyRouter = require("./routes/propertyRouter");
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 //* ROUTES
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/property", propertyRouter);
 
 const dbUrl = process.env.MONGODB_URL.replace(
   "<password>",
