@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const bcrypt = require("bcrypt");
 
 exports.getAllUsers = async (req, res) => {
   const users = await User.find({ active: true });
@@ -11,12 +12,22 @@ exports.getAllUsers = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
+    if (req.body.role === "admin") {
+      throw new Error("Please choose a role from : tenant or owner");
+    }
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     await User.create({
       name: req.body.name,
       email: req.body.email,
       age: req.body.age,
-      password: req.body.password,
+      password: hashedPassword,
+      role: req.body.role,
     });
+
+    // if (req.body.role === "owner") {
+    //   // redirect to createProperty route
+    //   return res.redirect("/api/v1/getAllProperties");
+    // }
 
     res.status(201).json({
       status: "success",

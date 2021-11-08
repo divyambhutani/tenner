@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema({
     minlength: 8,
     select: false,
   },
-  roles: {
+  role: {
     type: String,
     enum: ["tenant", "owner", "admin"],
     default: "tenant",
@@ -33,6 +33,20 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  properties: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "Property",
+    },
+  ],
+});
+
+// QUERY MIDDLEWARE
+userSchema.pre("save", function (next) {
+  if (this.role === "tenant") {
+    this.properties = undefined;
+  }
+  next();
 });
 
 const User = mongoose.model("User", userSchema);
