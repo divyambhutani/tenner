@@ -5,6 +5,7 @@ dotenv.config({ path: "./config.env" });
 const mongoose = require("mongoose");
 const userRouter = require("./routes/userRouter");
 const propertyRouter = require("./routes/propertyRouter");
+const globalErrorHandler = require("./utils/globalErrorHandler");
 
 const app = express();
 
@@ -14,6 +15,9 @@ app.use(express.json());
 //* ROUTES
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/property", propertyRouter);
+
+//error handling -->global error handler
+app.use(globalErrorHandler);
 
 const dbUrl = process.env.MONGODB_URL.replace(
   "<password>",
