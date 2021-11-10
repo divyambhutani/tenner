@@ -1,5 +1,7 @@
 const express = require("express");
 const propertyController = require("../controllers/propertyController");
+const reviewController = require("../controllers/reviewController");
+const authController = require("../controllers/authController");
 
 const router = express.Router();
 
@@ -16,5 +18,10 @@ router
   .get(propertyController.getProperty)
   .patch(propertyController.updateProperty)
   .delete(propertyController.deleteProperty);
+
+router
+  .route("/:id/review")
+  .post(authController.protect, reviewController.createReview)
+  .get(authController.protect, reviewController.getAllReviews);
 
 module.exports = router;

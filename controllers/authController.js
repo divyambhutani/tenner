@@ -72,6 +72,7 @@ exports.protect = catchError(async (req, res, next) => {
   // 3 check if the user exists
   const user = await User.findById(payload.id);
   req.user = user;
+  next();
 });
 
 // exports.signout = (req,res)=>{
